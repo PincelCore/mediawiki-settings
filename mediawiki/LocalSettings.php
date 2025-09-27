@@ -254,11 +254,12 @@ wfLoadSkin( 'MinervaNeue' );
 
 // Definir layout Chameleon com navegação fixa para todo o site
 $egChameleonLayoutFile= '/var/www/mediawiki/skins/chameleon/layouts/fixedhead.xml';
+ 
 
 
 // Definir as esquema de estilos via variáveis do Chameleon
 $egChameleonExternalStyleVariables = [
-    '$body-bg' => '#f4f6f9',
+    '$body-bg' => '#efefef',
 	'$cmln-navbar-bg-color' => 'dark',
 	'$cmln-navbar-toggler-color' => 'light',
 	'$cmln-search-bar-btn-color' => 'dark',
@@ -281,7 +282,7 @@ $egChameleonExternalStyleModules = [
 
 # Semantic Wiki
 wfLoadExtension( 'SemanticMediaWiki' );
-
+wfLoadExtension( 'SemanticResultFormats' );
 
 // Enable external link icons
 $egChameleonEnableExternalLinkIcons = true;
@@ -371,6 +372,10 @@ $wgKartographerStyles = ['osm'];
 $wgKartographerDfltStyle = '';
 $wgKartographerSimpleStyleMarkers = false;
 
+#Maps
+wfLoadExtension( 'Maps' );
+$GLOBALS['egMapsDefaultService'] = 'leaflet';
+
 # Configuracoes de PDF
 // Default width for the PDF object container.
 $wgPdfEmbed['width'] = 800;
@@ -383,11 +388,38 @@ $wgGroupPermissions['*']['embed_pdf'] = true;
 # For SVG image support
 $wgFileExtensions = array_merge(
     $wgFileExtensions, [
-        'pdf', 'svg'
+        'pdf', 'svg', 'mp3', 'ogg'
     ]
 );
 $wgSVGConverter = 'ImageMagick';
 $wgAllowTitlesInSVG = true;
+
+wfLoadExtension( 'TimedMediaHandler' );
+$wgMediaViewerEnableByDefault = true;
+$wgFFmpegLocation = '/usr/bin/ffmpeg'; // Most common ffmpeg path on Linux
+
+// MediaWiki language extension bundle (MLEB) : extensões para wiki multi idioma
+wfLoadExtension('Babel');
+
+wfLoadExtension('Cldr');
+
+wfLoadExtension('CleanChanges');
+$wgCCTrailerFilter = true;
+$wgCCUserFilter = false;
+$wgDefaultUserOptions['usenewrc'] = 1;
+
+wfLoadExtension( 'Translate' );
+$wgGroupPermissions['user']['translate'] = true;
+$wgGroupPermissions['user']['translate-messagereview'] = true;
+$wgGroupPermissions['user']['translate-groupreview'] = true;
+$wgGroupPermissions['user']['translate-import'] = true;
+$wgGroupPermissions['sysop']['pagetranslation'] = true;
+$wgGroupPermissions['sysop']['translate-manage'] = true;
+$wgTranslateDocumentationLanguageCode = 'qqq';
+$wgExtraLanguageNames['qqq'] = 'Message documentation'; # No linguistic content. Used for documenting messages
+
+wfLoadExtension('UniversalLanguageSelector');
+
 
 #Suprime aviso do EmbedVideo de funções deprecadas do PHP
 $wgDeprecationReleaseLimit = '1.0';
@@ -411,9 +443,12 @@ START_END_MARKER;
 $wgShowDebug = false;
 $wgDevelopmentWarnings = false;
 $wgShowExceptionDetails = false;
+$wgShowDBErrorBacktrace = false;
+$wgShowSQLErrors = false;
 
 #Definir a forma de contagem de verbetes
 $wgArticleCountMethod = 'any';
+
 
 #Add a call to enableSemantics() to the end of the "LocalSettings.php" file. 
 enableSemantics( 'wikifavelas.com.br' );
